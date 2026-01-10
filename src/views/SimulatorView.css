@@ -4,9 +4,10 @@
 .sv-body {
     font-family: 'Inter', sans-serif;
     background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
-    min-height: 100vh;
+    min-height: 100vh; /* Allows the page to grow beyond the screen */
     padding: 20px;
     color: #ecf0f1;
+    overflow-y: auto; /* Explicitly allow vertical scrolling */
 }
 
 .sv-container {

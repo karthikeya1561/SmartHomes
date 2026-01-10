@@ -1,7 +1,8 @@
 import React, { memo, useState, useEffect } from 'react';
-import { Handle, Position } from '@xyflow/react';
+import { Position } from '@xyflow/react';
+import SmartHandle from './SmartHandle';
 
-const LEDNode = memo(({ data, selected }) => {
+const LEDNode = memo(({ id, data, selected }) => {
   const [pulse, setPulse] = useState(1);
   const color = data.color || '#FF4757';
   const isPowered = data.isPowered || false;
@@ -28,7 +29,7 @@ const LEDNode = memo(({ data, selected }) => {
   return (
     <div className="relative w-[60px] h-[100px]" style={{ filter: selected ? 'drop-shadow(0 0 10px #00ccff)' : 'none' }}>
       <svg width="60" height="100" viewBox="-30 -50 60 100" className="overflow-visible pointer-events-none">
-        
+
         {/* 2. Realistic Glow Layers (Only visible when powered) */}
         {isPowered && (
           <g style={{ opacity: pulse }}>
@@ -38,9 +39,9 @@ const LEDNode = memo(({ data, selected }) => {
         )}
 
         {/* 3. Refined LED Bulb Geometry */}
-        <path 
-          d="M -15 -21 L 15 -21 L 15 0 Q 15 1 0 1 L -15 1 Q -15 0 -15 -21 Z" 
-          fill={isPowered ? color : color} 
+        <path
+          d="M -15 -21 L 15 -21 L 15 0 Q 15 1 0 1 L -15 1 Q -15 0 -15 -21 Z"
+          fill={isPowered ? color : color}
           className="pointer-events-auto"
         />
         <path d="M -15 -21 A 15 15 0 0 1 15 -21" fill={color} />
@@ -52,27 +53,25 @@ const LEDNode = memo(({ data, selected }) => {
         {/* 5. Realistic Metal Legs */}
         {/* Cathode (Straight - Left) */}
         <rect x="-10.5" y="1" width="3" height="28" fill="#999" />
-        
+
         {/* Anode (Bent - Right) */}
-        <path 
-          d="M 7 1 L 7 16 Q 7 22 13 22 L 13 30" 
-          fill="none" 
-          stroke="#999" 
-          strokeWidth="3" 
+        <path
+          d="M 7 1 L 7 16 Q 7 22 13 22 L 13 30"
+          fill="none"
+          stroke="#999"
+          strokeWidth="3"
         />
       </svg>
 
       {/* 6. Precision Connection Terminals */}
-      {/* Cathode Terminal (Left) */}
-      <div className="absolute" style={{ left: '21px', top: '78px' }}>
-        <div className={`w-2 h-2 rounded-full ${isPowered ? 'bg-red-400' : 'bg-red-600'}`} />
-        <Handle type="target" position={Position.Bottom} id="cathode" className="!opacity-0 !w-0 !h-0" />
+      {/* Cathode Terminal (Left) - Target Visual Tip: (21, 79) -> Handle TopLeft: (11, 69) */}
+      <div className="absolute" style={{ left: '11px', top: '69px' }}>
+        <SmartHandle type="target" position={Position.Bottom} id="cathode" nodeId={id} />
       </div>
 
-      {/* Anode Terminal (Right) */}
-      <div className="absolute" style={{ left: '43px', top: '80px' }}>
-        <div className={`w-2 h-2 rounded-full ${isPowered ? 'bg-green-400' : 'bg-green-600'}`} />
-        <Handle type="source" position={Position.Bottom} id="anode" className="!opacity-0 !w-0 !h-0" />
+      {/* Anode Terminal (Right) - Target Visual Tip: (43, 80) -> Handle TopLeft: (33, 70) */}
+      <div className="absolute" style={{ left: '33px', top: '70px' }}>
+        <SmartHandle type="source" position={Position.Bottom} id="anode" nodeId={id} />
       </div>
     </div>
   );

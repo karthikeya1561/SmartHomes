@@ -1,7 +1,8 @@
 import React, { memo } from 'react';
-import { Handle, Position } from '@xyflow/react';
+import { Position } from '@xyflow/react';
+import SmartHandle from './SmartHandle';
 
-const BatteryNode = memo(({ data, selected }) => {
+const BatteryNode = memo(({ id, data, selected }) => {
   const voltage = data.voltage || 9;
 
   return (
@@ -15,14 +16,14 @@ const BatteryNode = memo(({ data, selected }) => {
             <stop offset="100%" stopColor="#1a252f" />
           </linearGradient>
         </defs>
-        
+
         {/* Main Body */}
         <rect x="5" y="2" width="60" height="56" rx="6" fill="url(#batGradient)" className="pointer-events-auto" />
-        
+
         {/* Decorative Details */}
         <rect x="7" y="4" width="56" height="10" rx="2" fill="rgba(255,255,255,0.1)" />
         <rect x="7" y="20" width="56" height="20" fill="rgba(52, 152, 219, 0.25)" />
-        
+
         {/* Voltage Text */}
         <text x="35" y="35" fill="#3498db" fontSize="16" fontWeight="bold" textAnchor="middle" style={{ filter: 'drop-shadow(0 0 5px rgba(52,152,219,0.5))' }}>
           {voltage}V
@@ -34,25 +35,25 @@ const BatteryNode = memo(({ data, selected }) => {
       </svg>
 
       {/* 2. Precision Terminals (Zero-Gap) */}
-      {/* Positive Terminal (Matches red pad in friend's code) */}
-      <div className="absolute" style={{ left: '5px', top: '40px' }}>
+      {/* Positive Terminal (Matches red pad in friend's code) - Center (11,46) -> TL (1,36) */}
+      <div className="absolute" style={{ left: '1px', top: '36px' }}>
         <div className="w-3 h-3 rounded-full bg-[#e74c3c] border border-white/20 shadow-lg" />
-        <Handle 
-          type="source" 
-          position={Position.Bottom} 
-          id="positive" 
-          className="!opacity-0 !w-0 !h-0" 
+        <SmartHandle
+          type="source"
+          position={Position.Bottom}
+          id="positive"
+          nodeId={id}
         />
       </div>
 
-      {/* Negative Terminal (Matches gray pad in friend's code) */}
-      <div className="absolute" style={{ left: '65px', top: '40px' }}>
+      {/* Negative Terminal (Matches gray pad in friend's code) - Center (71,46) -> TL (61,36) */}
+      <div className="absolute" style={{ left: '61px', top: '36px' }}>
         <div className="w-3 h-3 rounded-full bg-[#95a5a6] border border-white/20 shadow-lg" />
-        <Handle 
-          type="source" 
-          position={Position.Bottom} 
-          id="negative" 
-          className="!opacity-0 !w-0 !h-0" 
+        <SmartHandle
+          type="source"
+          position={Position.Bottom}
+          id="negative"
+          nodeId={id}
         />
       </div>
     </div>
